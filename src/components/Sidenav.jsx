@@ -150,7 +150,7 @@ function Sidenav() {
         </Main>
       </Box>
   );
-}
+};
 
 export default Sidenav;
 
