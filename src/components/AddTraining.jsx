@@ -10,24 +10,31 @@ export default function AddTraining ({ data, fetchCustomers }) {
     
     const [open, setOpen] = useState(false);
 
-    const [training, setTraining] = useState ({
+    const emptyTraining = {
         date: '',
         duration: '',
         activity: '',
         customer: data.links.find(link => link.rel  === "self").href
-    });
+    };
+
+    const [training, setTraining] = useState (emptyTraining);
 
     const handleOpen = () => {
         setOpen(true);
         
     };
 
+    const resetForm = () => {
+        setTraining(emptyTraining);
+    };
+
     const handleClose = () => {
+        resetForm();
         setOpen(false);
     };
 
     const saveTraining = () => {
-        const formattedDate = dayjs(training.date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
+        const formattedDate = dayjs(training.date).toISOString();
         const updatedTraining = {...training, date: formattedDate};
         
         fetch(import.meta.env.VITE_API_URL + '/api/trainings', {

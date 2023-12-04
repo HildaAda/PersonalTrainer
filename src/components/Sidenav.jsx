@@ -18,6 +18,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Link, Outlet } from 'react-router-dom';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
@@ -68,7 +70,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-function Sidenav() {
+export default function Sidenav() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -126,16 +128,18 @@ function Sidenav() {
         <Divider />
         <List>
           {[
-            { to: "/", text: "Customers" },
-            { to: "/traininglist", text: "Trainings" }
+            { to: "/", text: "Customers", icon: <AccountBoxIcon /> },
+            { to: "/traininglist", text: "Trainings", icon: <DirectionsRunIcon /> },
+            { to: "/calendar", text: "Calendar", icon: <CalendarMonthIcon /> },
+            { to: "/chart", text: "Chart", icon: <BarChartIcon sx={{ color: "#8884d8"}} /> },
           ].map((item, index) => (
           <ListItem key={index} disablePadding>
-            <ListItemButton component={Link} to={item.to} style={linkStyle}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <AccountBoxIcon /> : <DirectionsRunIcon />}
-              </ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
+          <ListItemButton component={Link} to={item.to} style={linkStyle}>
+            <ListItemIcon>
+              {item.icon}
+            </ListItemIcon>
+            <ListItemText primary={item.text} />
+          </ListItemButton>
           </ListItem>
           ))}
         </List>
@@ -143,7 +147,7 @@ function Sidenav() {
         <Main open={open}>
           <DrawerHeader />
           <div style = {{ padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <TableContainer component={Paper} style = {{ display: 'flex', justifyContent: 'center', height: 450}}>
+            <TableContainer component={Paper} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 450}}>
               <Outlet />
             </TableContainer>
           </div>
@@ -151,7 +155,5 @@ function Sidenav() {
       </Box>
   );
 };
-
-export default Sidenav;
 
 

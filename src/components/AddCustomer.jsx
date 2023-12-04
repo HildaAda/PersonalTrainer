@@ -6,9 +6,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CustomerDialog from './CustomerDialog';
 
 export default function AddCustomer({ fetchCustomers }) {
-    const [open, setOpen] = useState(false);
     
-    const [customer, setCustomer] = useState({
+    const [open, setOpen] = useState(false);
+
+    const emptyCustomer = {
         firstname: '',
         lastname: '',
         streetaddress: '',
@@ -16,13 +17,20 @@ export default function AddCustomer({ fetchCustomers }) {
         city: '',
         email: '',
         phone: ''
-    });
+    }
+    
+    const [customer, setCustomer] = useState(emptyCustomer);
 
     const handleOpen = () => {
         setOpen(true);
     };
 
+    const resetForm = () => {
+        setCustomer(emptyCustomer);
+    };
+
     const handleClose = () => {
+        resetForm(); 
         setOpen(false);
     };
 
@@ -61,4 +69,4 @@ export default function AddCustomer({ fetchCustomers }) {
             </Dialog>
         </div>
     );
-}
+};

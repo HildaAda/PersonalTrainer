@@ -1,20 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AgGridReact } from "ag-grid-react";
-import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { red } from "@mui/material/colors";
-
+import Button from '@mui/material/Button';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import EditCustomer from "./EditCustomer";
 import AddCustomer from "./AddCustomer";
 import AddTraining from "./AddTraining";
 
-function Customerlist () {
+export default function Customerlist () {
 
     const [customers, setCustomers] = useState([]);
-    const [trainings, setTrainings] = useState([]);
 
     useEffect(() => {
         fetchCustomers();
@@ -67,14 +65,28 @@ function Customerlist () {
         }
     };
 
+    const gridRef = useRef(null);
+
+    const exportToCSV = () => {
+        if (gridRef.current) {
+        gridRef.current.api.exportDataAsCsv();
+        }
+    };
+
     return(
     <>
     <div className="ag-theme-material" style={{width: '95%', height: 400, textAlign: 'left'}}>
         <div style={{display: 'flex', justifyContent: 'space-between', outline: 'none' }}>
             <h3>Customers</h3>
-            <AddCustomer fetchCustomers={fetchCustomers}/>  
+            <div style={{display: 'flex', textAlign: 'left', padding: '10px'}}>
+            <AddCustomer fetchCustomers={fetchCustomers}/> 
+            <Button size="small" onClick={exportToCSV} style={{ marginLeft: '20px' }}>
+              Export to CSV
+            </Button>
+            </div>
         </div>
-        <AgGridReact 
+        <AgGridReact
+        ref={gridRef} 
         rowData={customers}
         columnDefs={columnDefs}
         pagination={true}
@@ -84,5 +96,3 @@ function Customerlist () {
      </>
     );
 };
-
-export default Customerlist;

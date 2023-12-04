@@ -9,7 +9,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
 
-function Taraininglist () {
+export default function Taraininglist () {
 
     const [trainings, setTrainings] = useState([]);
 
@@ -23,9 +23,9 @@ function Taraininglist () {
         {field: 'activity', sortable: true, filter: true, width: 250},
         {headerName: "Customer", field: "customer.firstname", valueGetter: (params) => `${params.data.customer.firstname} ${params.data.customer.lastname}`,sortable: true, filter: true, width: 250},
         {
-          headerName: "Delete",  cellRenderer: params => <IconButton size="small" onClick={() => deleteTraining(params)}><DeleteIcon sx={{ color: red[500] }}/></IconButton>, width: 250
+          cellRenderer: params => <IconButton size="small" onClick={() => deleteTraining(params)}><DeleteIcon sx={{ color: red[500] }}/></IconButton>, width: 250
         }
-    ])
+    ]);
 
     const fetchTrainings = () => {
         fetch(import.meta.env.VITE_API_URL + '/gettrainings')
@@ -37,7 +37,7 @@ function Taraininglist () {
         })
         .then(data => setTrainings(data))
         .catch(err => console.error(err))
-    }
+    };
 
     const deleteTraining = (params) => {
         if(window.confirm("Are you sure you want to delete this training?")) {
@@ -50,7 +50,7 @@ function Taraininglist () {
             })
             .catch(err => console.error(err));
         }
-    }
+    };
 
     return(
     <>
@@ -64,7 +64,5 @@ function Taraininglist () {
         />
      </div>
      </>
-    )
-}
-
-export default Taraininglist;
+    );
+};
