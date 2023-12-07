@@ -41,7 +41,7 @@ export default function Customerlist () {
     ]);
 
     const fetchCustomers = () => {
-        fetch('https://traineeapp.azurewebsites.net/api/customers')
+        fetch(import.meta.env.VITE_API_URL + '/api/customers')
         .then(response => {
             if (response.ok)
                 return response.json();

@@ -23,17 +23,12 @@ export default function ActivityChart () {
         .catch(err => console.error(err))
     };
 
-    const activityData = trainings.reduce((acc, training) => {
-        const existingActivity = acc.find(item => item.activity === training.activity);
-    
-        if (existingActivity) {
-          existingActivity.duration += training.duration;
-        } else {
-          acc.push({ activity: training.activity, duration: training.duration });
-        }
-    
-        return acc;
-      }, []);
+    const activityData = _.map(_.groupBy(trainings, 'activity'), (group, activity) => {
+        return {
+          activity: activity,
+          duration: _.sumBy(group, 'duration')
+        };
+      });
 
 
     return (
